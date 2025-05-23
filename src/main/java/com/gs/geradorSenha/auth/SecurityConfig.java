@@ -55,9 +55,9 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("http://localhost:3000/")); // Libera a origem do React
-		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // Métodos HTTP
-																										// permitidos
+		configuration.setAllowedOrigins(List.of("http://localhost:3000/")); // Libera front,AJUDA, !!!!!
+		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); 
+		
 		configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin",
 				"Access-Control-Allow-Headers", "Access-Control-Expose-Headers", "Accept", "Origin", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers", "Access-Control-Allow-Credentials",
