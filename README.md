@@ -59,6 +59,7 @@ POST gs/senha
 7. **Deletar senha**
 
 DEL gs/senha/{idSenha}
+
 ---
 ## 🛠️ Como rodar o projeto localmente
 
