@@ -49,13 +49,16 @@ email: "usuario@teste.com",
 senha: "senhaSegura123"
 
 3. **Listar senhas**
-   GET gs/senha/senhas
+
+GET gs/senha/senhas
    
 5. **Cadastrar senha**
-    POST gs/senha
+
+POST gs/senha
    
 7. **Deletar senha**
-   DEL gs/senha/{idSenha}
+
+DEL gs/senha/{idSenha}
 ---
 ## 🛠️ Como rodar o projeto localmente
 
