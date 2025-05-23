@@ -6,8 +6,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class SenhaListagemDTO {
-
+	
+	private String id;
     private String nome;
     private String senha;
-    private String idUsuario;
+    
 }
