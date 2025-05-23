@@ -1,24 +1,24 @@
 package com.gs.geradorSenha.model.dto;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
+import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
+@AllArgsConstructor
 public class UsuarioDTO {
 
-	private Long idUsuario;
 	private String nome;
-	private String nickname;
+
+	@Email
 	private String email;
-	private boolean isAdmin;
-	private LocalDateTime dataCriacao;
-	private String fotoPerfil;
-	private boolean bloqueado;
-	// private Localizacao localizacao;
-	private List<Long> avaliacaoIds;
-	private List<Long> postagemIds;
-	private List<Long> sugerirPraiaIds;
+
+	private LocalDate dataNascimento;
+
+	private String senha;
+
+	private String confirmacaoSenha;
 
 }

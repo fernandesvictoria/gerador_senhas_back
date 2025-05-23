@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import com.gs.geradorSenha.exception.GSException;
+import com.gs.geradorSenha.exception.GeradorException;
 import com.gs.geradorSenha.model.entity.Usuario;
 import com.gs.geradorSenha.model.repository.UsuarioRepository;
 
@@ -27,7 +27,7 @@ public class AuthService {
 		return jwtService.generateToken(authentication);
 	}
 
-	public Usuario getUsuarioAutenticado() throws GSException {
+	public Usuario getUsuarioAutenticado() throws GeradorException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Usuario authenticatedUser = null;
 
@@ -38,11 +38,11 @@ public class AuthService {
 			String login = jwt.getClaim("sub");
 
 			authenticatedUser = userRepository.findByEmail(login)
-					.orElseThrow(() -> new GSException("Usuário não encontrado.", HttpStatus.BAD_REQUEST));
+					.orElseThrow(() -> new GeradorException("Usuário não encontrado.", HttpStatus.BAD_REQUEST));
 		}
 
 		if (authenticatedUser == null) {
-			throw new GSException("Usuário não encontrado.", HttpStatus.BAD_REQUEST);
+			throw new GeradorException("Usuário não encontrado.", HttpStatus.BAD_REQUEST);
 		}
 
 		return authenticatedUser;

@@ -13,8 +13,8 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(GSException.class)
-    public ResponseEntity<Map<String, Object>> handleFlopException(GSException ex) {
+    @ExceptionHandler(GeradorException.class)
+    public ResponseEntity<Map<String, Object>> handleFlopException(GeradorException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("message", ex.getMessage());
         response.put("status", HttpStatus.FORBIDDEN.value());
