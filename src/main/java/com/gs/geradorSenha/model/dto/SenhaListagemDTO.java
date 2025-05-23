@@ -9,4 +9,5 @@ public class SenhaListagemDTO {
 
     private String nome;
     private String senha;
+    private String idUsuario;
 }

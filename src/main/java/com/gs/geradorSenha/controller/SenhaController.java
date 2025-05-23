@@ -1,6 +1,5 @@
 package com.gs.geradorSenha.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,32 +25,27 @@ import jakarta.validation.Valid;
 @RequestMapping(path = "/senha")
 public class SenhaController {
 
-    @Autowired
-    private SenhaService senhaService;
+	@Autowired
+	private SenhaService senhaService;
 
-    @Autowired
-    private AuthService authService;
+	@Autowired
+	private AuthService authService;
 
-    @PostMapping
-    public ResponseEntity<Void> cadastrarItem(@Valid @RequestBody SenhaDTO dto) throws GeradorException {
+	@PostMapping
+	public ResponseEntity<Void> cadastrarSenha(@Valid @RequestBody SenhaDTO dto) throws GeradorException {
+		Usuario usuario = authService.getUsuarioAutenticado();
+		senhaService.cadastrarSenha(dto, usuario);
+		return ResponseEntity.created(null).build();
+	}
 
-        Usuario usuario = authService.getUsuarioAutenticado();
+	@DeleteMapping(path = "/{idSenha}")
+	public void excluirSenha(@PathVariable String idSenha) throws GeradorException {
+		senhaService.deletarSenha(idSenha);
+	}
 
-        senhaService.cadastrarSenha(dto, usuario);
-
-        return ResponseEntity.created(null).build();
-    }
-
-    @DeleteMapping(path = "/{idSenha}")
-    public void deletarItem(@PathVariable String idSenha) throws GeradorException {
-        Usuario usuario = authService.getUsuarioAutenticado();
-
-        senhaService.deletarItem(idSenha);
-    }
-
-    @GetMapping("/senhas")
-    public List<SenhaListagemDTO> buscarTodasSenhas() throws GeradorException {
-        Usuario usuario = authService.getUsuarioAutenticado();
-        return senhaService.buscarSenhasDoUsuario(usuario.getIdUsuario());
-    }
+	@GetMapping("/senhas")
+	public List<SenhaListagemDTO> buscarSenhasDoUsuario() throws GeradorException {
+		Usuario usuario = authService.getUsuarioAutenticado();
+		return senhaService.buscarSenhasDoUsuario(usuario.getIdUsuario());
+	}
 }

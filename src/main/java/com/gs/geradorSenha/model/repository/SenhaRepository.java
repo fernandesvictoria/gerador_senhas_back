@@ -14,9 +14,11 @@ import com.gs.geradorSenha.model.entity.Senha;
 
 @Repository
 public interface SenhaRepository extends JpaRepository<Senha, String>, JpaSpecificationExecutor<Senha> {
-
-	@Query("SELECT new com.gs.geradorSenha.model.dto.SenhaListagemDTO(s.nome, s.senha) FROM Senha s WHERE s.usuario.id = :usuarioId")
+	@Query("SELECT new com.gs.geradorSenha.model.dto.SenhaListagemDTO(s.idSenha, s.nome, s.senha) FROM Senha s WHERE s.usuario.id = :usuarioId")
 	List<SenhaListagemDTO> findAllByUsuarioId(@Param("usuarioId") Long usuarioId);
 
 	Optional<Senha> findByNome(String nome);
+
+	@Query("SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END FROM Senha s WHERE s.nome = :nome AND s.usuario.id = :usuarioId")
+	boolean existsByNomeAndUsuarioId(String nome, Long usuarioId);
 }

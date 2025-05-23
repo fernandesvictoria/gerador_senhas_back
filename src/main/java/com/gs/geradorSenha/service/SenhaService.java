@@ -19,33 +19,43 @@ public class SenhaService {
 	@Autowired
 	private SenhaRepository senhaRepository;
 
-	public Senha criarSenha(Senha senha) throws GeradorException {
-		return senhaRepository.save(senha);
+	public HttpStatus cadastrarSenha(SenhaDTO dto, Usuario usuario) throws GeradorException {
+		if (senhaRepository.existsByNomeAndUsuarioId(dto.getNome(), usuario.getIdUsuario())) {
+			throw new GeradorException("Nome do item já cadastrado", HttpStatus.CONFLICT);
+		}
+		Senha senha = new Senha();
+		senha.setNome(dto.getNome());
+		senha.setSenha(dto.getSenha());
+		senha.setUsuario(usuario);
+		senhaRepository.save(senha);
+
+		return HttpStatus.CREATED;
 	}
 
-	 public HttpStatus cadastrarSenha(SenhaDTO dto, Usuario usuario) throws GeradorException{
+	public void deletarSenha(String senhaId) throws GeradorException {
 
-	        if(senhaRepository.findByNome(dto.getNome()).isPresent()) {
-	            throw new GeradorException("Nome do item já cadastrado", HttpStatus.CONFLICT);
-	        }
-	        Senha senha = new Senha();
-	        senha.setNome(dto.getNome());
-	        senha.setSenha(dto.getSenha());
-	        senha.setUsuario(usuario);
-	        senhaRepository.save(senha);
+		if (!senhaRepository.existsById(senhaId)) {
+			throw new GeradorException("Senha nao encontrada", HttpStatus.NOT_FOUND);
+		}
+		senhaRepository.deleteById(senhaId);
+	}
 
-	        return HttpStatus.CREATED;
-	    }
+//	   public void deletarSenha(String itemId) throws GeradorException{
+//	        if (!senhaRepository.existsById(itemId)) {
+//	            throw new GeradorException(" nao encontrado",HttpStatus.NOT_FOUND);
+//	        }
+//	        senhaRepository.deleteById(itemId);
+//	    }
+
+	public List<SenhaListagemDTO> buscarSenhasDoUsuario(Long idUsuario) {
+		return senhaRepository.findAllByUsuarioId(idUsuario);
+	}
 	
-	   public void deletarItem(String itemId) throws GeradorException{
-	        if (!senhaRepository.existsById(itemId)) {
-	            throw new GeradorException("Item nao encontrado",HttpStatus.NOT_FOUND);
-	        }
-	        senhaRepository.deleteById(itemId);
-	    }
-	   
-	   public List<SenhaListagemDTO> buscarSenhasDoUsuario(Long idUsuario) {
-		   return senhaRepository.findAllByUsuarioId(idUsuario);		}
-	
+	public Senha procurarPorId(String senhaId) throws GeradorException {
+		Senha sugestao = senhaRepository.findById(senhaId)
+				.orElseThrow(() -> new GeradorException("Senha não foi encontrada!", HttpStatus.NOT_FOUND));
+
+		return sugestao;
+	}
 
 }
